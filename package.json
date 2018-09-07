@@ -2,8 +2,9 @@
   "name": "database",
   "version": "1.0.0",
   "description": "database repository module",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
+    "build": "babel src -d lib",
     "test": "mocha --require babel-polyfill --require babel-register"
   },
   "repository": {
@@ -20,6 +21,7 @@
     "validator": "^5.7.0"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
