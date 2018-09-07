@@ -1,0 +1,28 @@
+name: Foo
+db: test
+
+schema:
+  firstName: String
+  lastName: String
+  email:
+    type: String
+    required: true
+    unique: true
+    set: toLowerCase
+    validator: isEmail
+  password:
+    type: String
+    required: true
+    bcrypt: true
+
+virtual:
+  name:
+    type: String
+    formatter:
+      name: # middleware formatter + arguments to pass
+        - firstName
+        - lastName
+
+plugins:
+  - fooNewDocument
+  - fooHello

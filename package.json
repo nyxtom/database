@@ -1,0 +1,29 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "database repository module",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require babel-polyfill --require babel-register"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nyxtom/mongo-boiler.git"
+  },
+  "dependencies": {
+    "bcrypt": "^3.0.0",
+    "debug": "^2.6.0",
+    "lodash": "4.17.10",
+    "mongoose": "5.0.18",
+    "mongoose-bcrypt": "^1.6.0",
+    "node-fetch": "^2.2.0",
+    "validator": "^5.7.0"
+  },
+  "devDependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "chai": "^3.5.0",
+    "mocha": "^5.2.0"
+  }
+}
