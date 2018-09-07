@@ -30,7 +30,7 @@ export function setSchemaTypes(schema) {
         } else if (typeof value === 'string') {
             schemaProp = schema[schemaKey] = { type: schema[schemaKey] };
         } else {
-            throw new Error(`Unexpected schema structure in model name ${modelName}`, schema);
+            throw new Error(`Unexpected schema structure`, schema);
         }
 
         schemaProp.type = schemaTypes[schemaProp.type];
@@ -84,19 +84,19 @@ function hasBcryptFields(schema) {
 
 export function addVirtualsAndPlugins(definition, schema, formatters, schemaPlugins) {
     if (definition.itemType) {
-        function getItemType() {
+        let getItemType = function() {
             return definition.itemType;
-        }
+        };
         schema.virtual('itemType').get(getItemType);
     }
     if (definition.alias) {
-        function getAlias() {
+        let getAlias = function() {
             return definition.alias;
-        }
+        };
         schema.virtual('alias').get(getAlias);
     }
     if (!definition.schema.name && definition.nameProperty) {
-        function getName() {
+        let getName = function() {
             return this[definition.nameProperty];
         }
         schema.virtual('name').get(getName);

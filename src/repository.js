@@ -1,3 +1,4 @@
+import { AssertionError } from 'assert';
 import Debug from 'debug';
 import yaml from 'js-yaml';
 import lodash from 'lodash';

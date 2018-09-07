@@ -3,6 +3,7 @@ import Debug from 'debug';
 import fs from 'fs';
 import lodash from 'lodash';
 import { Schema } from 'mongoose';
+import os from 'os';
 import path from 'path';
 import validator from 'validator';
 
@@ -58,7 +59,7 @@ export class RepositoryManager {
             return loadedSchemas;
         }
 
-        return lodash.get(loadedSchemas, schemaPath);
+        return lodash.get(loadedSchemas, options.schemaPath);
     }
 
     /**
