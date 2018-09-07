@@ -1,7 +1,7 @@
 {
-  "name": "database",
-  "version": "1.0.0",
-  "description": "database repository module",
+  "name": "mongo-boiler",
+  "version": "0.1.0",
+  "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "lib/index.js",
   "scripts": {
     "build": "babel src -d lib",
