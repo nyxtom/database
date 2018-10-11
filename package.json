@@ -1,6 +1,6 @@
 {
   "name": "@nyxtom/database",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +9,7 @@
     "lint": "eslint src/**",
     "test": "npm run build && mocha --require @babel/polyfill --require @babel/register",
     "upgrade-interactive": "npm-check --update",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
