@@ -1,6 +1,6 @@
 {
   "name": "@nyxtom/database",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "dist/index.js",
   "scripts": {
