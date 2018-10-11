@@ -1,5 +1,5 @@
 {
-  "name": "database",
+  "name": "@nyxtom/database",
   "version": "0.1.0",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "dist/index.js",
