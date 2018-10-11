@@ -1,6 +1,6 @@
 {
   "name": "@nyxtom/database",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "dist/index.js",
   "scripts": {
@@ -16,14 +16,14 @@
     "url": "https://github.com/nyxtom/database.git"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "bcrypt": "^3.0.0",
     "debug": "^4.0.1",
     "lodash": "4.17.11",
     "mongoose": "^5.2.17",
     "mongoose-bcrypt": "^1.6.0",
     "node-fetch": "^2.2.0",
-    "validator": "^10.8.0",
-    "@babel/polyfill": "^6.26.0"
+    "validator": "^10.8.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
