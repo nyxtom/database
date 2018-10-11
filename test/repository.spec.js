@@ -38,7 +38,7 @@ describe('database repository', () => {
         let models = await repo.models('test');
         expect(models).to.exist;
         expect(models.Foo).to.exist;
-        await models.Foo.remove({ _id: '5b91eb654c5786f255ff7290' });
+        await models.Foo.deleteOne({ _id: '5b91eb654c5786f255ff7290' });
 
         let doc = new models.Foo({ _id: '5b91eb654c5786f255ff7290', firstName: 'Foo', lastName: 'Bar', email: 'test@example.com', password: 'testpass' });
         await doc.save();
@@ -49,7 +49,7 @@ describe('database repository', () => {
         expect(doc.name).to.equal('Foo Bar');
         expect(typeof doc.hello).to.equal('function');
         expect(doc.hello()).to.equal('world');
-        await doc.remove();
+        await doc.delete();
     });
 
 });

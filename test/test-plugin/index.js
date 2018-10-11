@@ -1,6 +1,6 @@
 import path from 'path';
 import * as virtualFormatters from './virtual-formatters';
-import * as schemaPlugins from './schema-plugins';
+import schemaPlugins from './schema-plugins';
 
 /**
  * List of definition files to load.

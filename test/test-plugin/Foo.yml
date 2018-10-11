@@ -23,6 +23,12 @@ virtual:
         - firstName
         - lastName
 
+index:
+  - email: 1
+    options:
+      unique: true
+
 plugins:
-  - fooNewDocument
-  - fooHello
+  - foo-new-document
+  - foo-hello
+
