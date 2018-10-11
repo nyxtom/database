@@ -1,39 +1,27 @@
 {
-  "name": "mongo-boiler",
+  "name": "database",
   "version": "0.1.0",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "build": "babel src -d lib",
+    "clean": "shx rm -rf dist node_modules",
+    "build": "babel src -d dist",
     "lint": "eslint src/**",
-    "test": "mocha --require babel-polyfill --require babel-register"
+    "test": "npm run build && mocha --require babel-polyfill --require babel-register",
+    "upgrade-interactive": "npm-check --update"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nyxtom/mongo-boiler.git"
+    "url": "https://github.com/nyxtom/database.git"
   },
   "dependencies": {
     "bcrypt": "^3.0.0",
-    "debug": "^2.6.0",
-    "lodash": "4.17.10",
-    "mongoose": "5.0.18",
+    "debug": "^4.0.1",
+    "lodash": "4.17.11",
+    "mongoose": "^5.2.17",
     "mongoose-bcrypt": "^1.6.0",
     "node-fetch": "^2.2.0",
-    "validator": "^5.7.0"
+    "validator": "^10.8.0"
   },
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-eslint": "^9.0.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
-    "chai": "^3.5.0",
-    "eslint": "^5.5.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "mocha": "^5.2.0"
-  }
+  "devDependencies": {}
 }
