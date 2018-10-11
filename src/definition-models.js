@@ -72,8 +72,16 @@ function hasBcryptFields(schema) {
         return false;
     }
     return Object.keys(schema).some(schemaKey => {
+        if (!schema[schemaKey]) {
+            return false;
+        }
         if (schema[schemaKey].bcrypt) {
             return true;
+        } else if (schema[schemaKey].getters &&
+            schema[schemaKey].setters &&
+            schema[schemaKey].path &&
+            schema[schemaKey].instance) {
+            return false;
         } else if (Array.isArray(schema[schemaKey])) {
             return hasBcryptFields(schema[schemaKey][0]);
         } else {
