@@ -1,4 +1,4 @@
-import lodash from 'lodash';
+import get from 'lodash/get';
 import { Schema } from 'mongoose';
 import mongooseBcrypt from 'mongoose-bcrypt';
 
@@ -63,7 +63,7 @@ function setSchemaMiddleware(schema, key, middleware) {
             return;
         }
 
-        schemaProp[key] = lodash.get(middleware, schemaProp[key]);
+        schemaProp[key] = get(middleware, schemaProp[key]);
     });
 }
 
@@ -79,6 +79,24 @@ function hasBcryptFields(schema) {
         } else {
             return hasBcryptFields(schema[schemaKey]);
         }
+    });
+}
+
+export function addIndexes(definition, schema) {
+    if (!definition.index) {
+        return;
+    }
+
+    let indexes = definition.index;
+    if (!Array.isArray(indexes)) {
+        indexes = [indexes];
+    }
+
+    indexes.forEach(index => {
+        let options = index.options;
+        let params = Object.assign({}, index);
+        delete params.options;
+        schema.index(params, options);
     });
 }
 
@@ -132,7 +150,7 @@ export function addVirtualsAndPlugins(definition, schema, formatters, schemaPlug
             }
 
             let formatMiddlewareKey = Object.keys(formatter)[0];
-            let middleware = lodash.get(formatters, formatMiddlewareKey);
+            let middleware = get(formatters, formatMiddlewareKey);
             if (!middleware) {
                 return;
             }

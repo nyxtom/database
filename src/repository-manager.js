@@ -7,7 +7,7 @@ import os from 'os';
 import path from 'path';
 import validator from 'validator';
 
-import { addVirtualsAndPlugins, setSchemaTypes, setSchemaSets, setSchemaValidators } from './definition-models';
+import { addVirtualsAndPlugins, addIndexes, setSchemaTypes, setSchemaSets, setSchemaValidators } from './definition-models';
 import * as setFormatters from './repository-set-formatters';
 
 const debug = new Debug('repository');
@@ -138,6 +138,10 @@ export class RepositoryManager {
             throw new AssertionError({ message: `Schema plugins must be a non-null object with the name and functions` });
         }
 
+        if (schemaPlugins.default) {
+            schemaPlugins = schemaPlugins.default;
+        }
+
         this.schemaPlugins = Object.assign({}, this.schemaPlugins, schemaPlugins);
     }
 
@@ -148,6 +152,10 @@ export class RepositoryManager {
     addValidators(validators) {
         if (!validators || typeof validators !== 'object') {
             throw new AssertionError({ message: `Validators must be a non-null object with the name and functions` });
+        }
+
+        if (validators.default) {
+            validators = validators.default;
         }
 
         this.validators = Object.assign({}, this.validators, validators);
@@ -162,6 +170,10 @@ export class RepositoryManager {
             throw new AssertionError({ message: `Formatters must be a non-null object with the name and functions` });
         }
 
+        if (formatters.default) {
+            formatters = formatters.default;
+        }
+
         this.setFormatters = Object.assign({}, this.setFormatters, formatters);
     }
 
@@ -172,6 +184,10 @@ export class RepositoryManager {
     addVirtualFormatters(formatters) {
         if (!formatters || typeof formatters !== 'object') {
             throw new AssertionError({ message: `Formatters must be a non-null object with the name and functions` });
+        }
+
+        if (formatters.default) {
+            formatters = formatters.default;
         }
 
         this.virtualFormatters = Object.assign({}, this.virtualFormatters, formatters);
@@ -203,6 +219,7 @@ export class RepositoryManager {
         let name = definition.name;
         let schema = new Schema(Object.assign({}, definition.schema));
         addVirtualsAndPlugins(definition, schema, this.virtualFormatters, this.schemaPlugins);
+        addIndexes(definition, schema);
 
         // models to export for each definition
         let models = definition.models || definition.model || definition.name;

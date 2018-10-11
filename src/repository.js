@@ -1,7 +1,7 @@
 import { AssertionError } from 'assert';
 import Debug from 'debug';
 import yaml from 'js-yaml';
-import lodash from 'lodash';
+import merge from 'lodash/merge';
 import mongoose from 'mongoose';
 import fetch from 'node-fetch';
 
@@ -29,7 +29,8 @@ const defaultOptions = {
     autoReconnect: true,
     socketTimeoutMS: 0,
     connectTimeoutMS: 0,
-    reconnectInterval: 2000
+    reconnectInterval: 2000,
+    useNewUrlParser: true
 };
 
 class Repository {
@@ -188,7 +189,7 @@ class Repository {
                 if (process.env.MONGO_APP_PASSWORD) {
                     auth.pass = process.env.MONGO_APP_PASSWORD;
                 }
-                let opts = lodash.merge({}, defaultOptions, this.configuration[db].options, auth);
+                let opts = merge({}, defaultOptions, this.configuration[db].options, auth);
                 pool[hostString] = mongoose.createConnection(connectionString, opts);
                 this.dbConnections[db] = pool[hostString];
             } else {
