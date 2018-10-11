@@ -1,6 +1,6 @@
 {
   "name": "@nyxtom/database",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "dist/index.js",
   "scripts": {
@@ -22,12 +22,12 @@
     "mongoose": "^5.2.17",
     "mongoose-bcrypt": "^1.6.0",
     "node-fetch": "^2.2.0",
-    "validator": "^10.8.0"
+    "validator": "^10.8.0",
+    "@babel/polyfill": "^6.26.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "^10.0.0",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
     "chai": "^4.2.0",
