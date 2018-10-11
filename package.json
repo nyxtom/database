@@ -1,13 +1,13 @@
 {
   "name": "@nyxtom/database",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
   "main": "dist/index.js",
   "scripts": {
     "clean": "shx rm -rf dist node_modules",
-    "build": "babel src -d dist",
+    "build": "./node_modules/.bin/babel src -d dist",
     "lint": "eslint src/**",
-    "test": "npm run build && mocha --require babel-polyfill --require babel-register",
+    "test": "npm run build && mocha --require @babel/polyfill --require @babel/register",
     "upgrade-interactive": "npm-check --update",
     "prepublish": "npm run build"
   },
@@ -16,7 +16,7 @@
     "url": "https://github.com/nyxtom/database.git"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
+    "@babel/polyfill": "^7.0.0",
     "bcrypt": "^3.0.0",
     "debug": "^4.0.1",
     "lodash": "4.17.11",
@@ -26,10 +26,11 @@
     "validator": "^10.8.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-register": "^6.26.0",
     "chai": "^4.2.0",
     "eslint": "^5.5.0",
     "eslint-config-standard": "^12.0.0",
