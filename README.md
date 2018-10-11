@@ -1,4 +1,4 @@
-# mongo-boiler
+# database
 Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models
 
 # Plugin model
@@ -20,10 +20,10 @@ repo.plugin('foo', testPlugin);
 
 let models = await repo.models('test');
 let doc = new models.Foo({
-    firstName: 'Foo', 
-    lastName: 'Bar', 
+    firstName: 'Foo',
+    lastName: 'Bar',
     email: 'test@example.com',
-    password: 'test123' 
+    password: 'test123'
 });
 console.log(doc.name); // Foo Bar
 doc.save();
@@ -132,7 +132,7 @@ async function load(repository) {
 
 ## Default Plugins
 
-By default the `mongoose-bcrypt` plugin is used to handle bcrypt fields. Additional support for other types may be used depending on long term needs. Otherwise, the base minimum has been setup. Additional plugins can be added via `repository.addSchemaPlugins`, `repository.addVirtualFormatters`, `repository.addSetFormatters`, `repository.addValidators`. 
+By default the `mongoose-bcrypt` plugin is used to handle bcrypt fields. Additional support for other types may be used depending on long term needs. Otherwise, the base minimum has been setup. Additional plugins can be added via `repository.addSchemaPlugins`, `repository.addVirtualFormatters`, `repository.addSetFormatters`, `repository.addValidators`.
 
 ## LICENSE
 
