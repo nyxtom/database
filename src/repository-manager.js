@@ -6,6 +6,7 @@ import { Schema } from 'mongoose';
 import os from 'os';
 import path from 'path';
 import validator from 'validator';
+import mongooseSchemaToGraphQl from 'mongoose-schema-to-graphql';
 
 import { addVirtualsAndPlugins, addIndexes, setSchemaTypes, setSchemaSets, setSchemaValidators } from './definition-models';
 import * as setFormatters from './repository-set-formatters';
@@ -16,6 +17,7 @@ export class RepositoryManager {
 
     constructor(fetch, yaml) {
         this.loadedSchemas = null;
+        this.loadedGqlSchemas = null;
         this.validators = null;
         this.setFormatters = null;
         this.virtualFormatters = null;
@@ -60,6 +62,20 @@ export class RepositoryManager {
         }
 
         return lodash.get(loadedSchemas, options.schemaPath);
+    }
+
+    /**
+     * Returns the graphql based on the given query options.
+     * @param {String} [options.db] - Database to select in the loaded schemas
+     * @return {Object} Returns all the graphql schema based on the given selector
+     */
+    gql(options) {
+        let loadedGqlSchemas = this.loadedGqlSchemas;
+        if (options && options.db) {
+            loadedGqlSchemas = loadedGqlSchemas[options.db] || [];
+        }
+
+        return loadedGqlSchemas;
     }
 
     /**
@@ -276,14 +292,35 @@ export class RepositoryManager {
             definition.db = options.db;
         }
 
+        // use env for database name if none is provided
+        if (!definition.db && process.env.DATABASE_NAME) {
+            definition.db = process.env.DATABASE_NAME;
+        }
+
         if (!definition.db) {
             throw new AssertionError({ message: `Must provide a db name to associate the schema with`, expected: 'db' });
+        }
+
+        let gqlObject;
+        if (definition.gql) {
+            let gqlConfig = Object.assign({
+                name: lodash.camelCase(definition.name),
+                description: definition.description || `${definition.name} schema`,
+                class: 'GraphQLObjectType',
+                schema: schema,
+                exclude: ['_id']
+            });
+            gqlObject = mongooseSchemaToGraphQl(gqlConfig);
         }
 
         let db = definition.db;
         this.loadedSchemas = this.loadedSchemas || {};
         this.loadedSchemas[db] = this.loadedSchemas[db] || {};
-        this.loadedSchemas[db][definition.name] = { name, db, definition, models, schema };
+        this.loadedSchemas[db][definition.name] = { name, db, definition, models, schema, gqlObject };
+        this.loadedGqlSchemas = this.loadedGqlSchemas || {};
+        this.loadedGqlSchemas[db] = Object.values(this.loadedSchemas[db])
+            .map(d => d.gqlObject)
+            .filter(g => !!g);
     }
 
     /**

@@ -1,7 +1,7 @@
 {
   "name": "@nyxtom/database",
-  "version": "1.1.0",
-  "description": "Simple mongoose/mongodb boilerplate with support for model based yaml definitions/plugins, validators, formatters and common mongo models",
+  "version": "1.2.0",
+  "description": "Simple mongoose/mongodb/graphql boilerplate with support for model based yaml definitions/plugins, graphql, validators, formatters and common mongo models",
   "main": "dist/index.js",
   "scripts": {
     "clean": "shx rm -rf dist node_modules",
@@ -19,10 +19,12 @@
     "@babel/polyfill": "^7.0.0",
     "bcrypt": "^3.0.0",
     "debug": "^4.0.1",
+    "graphql": "^14.0.2",
     "js-yaml": "^3.12.0",
     "lodash": "4.17.11",
     "mongoose": "^5.2.17",
     "mongoose-bcrypt": "^1.6.0",
+    "mongoose-schema-to-graphql": "^2.7.2",
     "node-fetch": "^2.2.0",
     "validator": "^10.8.0"
   },

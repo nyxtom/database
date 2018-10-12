@@ -28,6 +28,8 @@ index:
     options:
       unique: true
 
+gql: true
+
 plugins:
   - foo-new-document
   - foo-hello

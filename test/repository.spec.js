@@ -27,10 +27,20 @@ describe('database repository', () => {
         expect(schemas.test.Foo).to.exist;
         expect(schemas.test.Foo.name).to.equal('Foo');
         expect(schemas.test.Foo.db).to.equal('test');
+        expect(schemas.test.Foo.gqlObject).to.exist;
         expect(schemas.test.Foo.definition).to.exist;
         expect(schemas.test.Foo.definition.virtual).to.exist;
         expect(schemas.test.Foo.definition.virtual.name).to.exist;
         expect(typeof schemas.test.Foo.schema.newDocument).to.equal('function');
+    });
+
+    it('should be able to load a plugin and retrieve graphql schemas', async () => {
+        // load the schemas
+        let schemas = await repo.gql();
+        expect(schemas).to.exist;
+        expect(schemas.test).to.exist;
+        expect(schemas.test.length).to.equal(1);
+        expect(schemas.test[0]).to.exist;
     });
 
     it('should be able to load a plugin and get the model', async () => {

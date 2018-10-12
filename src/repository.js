@@ -47,6 +47,14 @@ class Repository {
      * @param {Object} config - The database repository configuration
      */
     configure(config) {
+        if (!config && process.env.DATABASE_NAME && process.env.MONGO_CONNECTION_STRING) {
+            config = {
+                dbs: [process.env.DATABASE_NAME],
+                [process.env.DATABASE_NAME]: {
+                    connectionString: process.env.MONGO_CONNECTION_STRING
+                }
+            };
+        }
         this.configuration = config;
     }
 
@@ -64,6 +72,16 @@ class Repository {
     async schemas(options) {
         await this._checkConfigAndLoadSchemas();
         return this.manager.schemas(options);
+    }
+
+    /**
+     * Returns the gql schema based on the given query options.
+     * @param {SchemaQueryOptions} options - Options to pass to schemas query
+     * @return {Object} Returns all the schema models based on the given selector
+     */
+    async gql(options) {
+        await this._checkConfigAndLoadSchemas();
+        return this.manager.gql(options);
     }
 
     /**
@@ -275,6 +293,13 @@ export function configure(config) { return instance.configure(config); }
  * @return {SchemaModel[]} Returns all the schema models based on the given selector
  */
 export async function schemas(options) { return instance.schemas(options); }
+
+/**
+ * Returns the graphql type definitions/schemas based on the given query options.
+ * @param {SchemaQueryOptions} options - Options to pass to schemas query
+ * @return {Object[]} Returns all the graphql schemas based on the given selector
+ */
+export async function gql(options) { return instance.gql(options); }
 
 /**
  * Each plugin corresponds to modifications it makes to the
