@@ -27,7 +27,7 @@ describe('database repository', () => {
         expect(schemas.test.Foo).to.exist;
         expect(schemas.test.Foo.name).to.equal('Foo');
         expect(schemas.test.Foo.db).to.equal('test');
-        expect(schemas.test.Foo.gqlObject).to.exist;
+        expect(schemas.test.Foo.gql).to.exist;
         expect(schemas.test.Foo.definition).to.exist;
         expect(schemas.test.Foo.definition.virtual).to.exist;
         expect(schemas.test.Foo.definition.virtual.name).to.exist;

@@ -7,6 +7,7 @@ import os from 'os';
 import path from 'path';
 import validator from 'validator';
 import mongooseSchemaToGraphQl from 'mongoose-schema-to-graphql';
+import { printType } from 'graphql';
 
 import { addVirtualsAndPlugins, addIndexes, setSchemaTypes, setSchemaSets, setSchemaValidators } from './definition-models';
 import * as setFormatters from './repository-set-formatters';
@@ -310,16 +311,16 @@ export class RepositoryManager {
                 schema: schema,
                 exclude: ['_id']
             });
-            gqlObject = mongooseSchemaToGraphQl(gqlConfig);
+            gqlObject = printType(mongooseSchemaToGraphQl(gqlConfig));
         }
 
         let db = definition.db;
         this.loadedSchemas = this.loadedSchemas || {};
         this.loadedSchemas[db] = this.loadedSchemas[db] || {};
-        this.loadedSchemas[db][definition.name] = { name, db, definition, models, schema, gqlObject };
+        this.loadedSchemas[db][definition.name] = { name, db, definition, models, schema, gql: gqlObject };
         this.loadedGqlSchemas = this.loadedGqlSchemas || {};
         this.loadedGqlSchemas[db] = Object.values(this.loadedSchemas[db])
-            .map(d => d.gqlObject)
+            .map(d => d.gql)
             .filter(g => !!g);
     }
 
