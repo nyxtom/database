@@ -118,6 +118,21 @@ export class RepositoryManager {
         this.loadDefaultFormattersAndValidators();
 
         let promises = this.plugins.map(async plugin => {
+            if (plugin.plugin.virtualFormatters) {
+                this.addVirtualFormatters(plugin.plugin.virtualFormatters);
+            }
+            if (plugin.plugin.schemaPlugins) {
+                this.addSchemaPlugins(plugin.plugin.schemaPlugins);
+            }
+            if (plugin.plugin.validators) {
+                this.addValidators(plugin.plugin.validators);
+            }
+            if (plugin.plugin.setFormatters) {
+                this.addSetFormatters(plugin.plugin.setFormatters);
+            }
+            if (plugin.plugin.definitions) {
+                await this.addDefinitions(plugin.plugin.definitions, plugin.options || {});
+            }
             let loadFn = plugin.plugin.load;
             if (!loadFn || typeof loadFn !== 'function') {
                 return;
@@ -191,6 +206,35 @@ export class RepositoryManager {
         }
 
         this.virtualFormatters = Object.assign({}, this.virtualFormatters, formatters);
+    }
+
+    /**
+     * Loads the given parsed definition, or yaml string definition
+     * or definition uri string to load from the filesystem.
+     * @param {Array|Object|String} definition - Yaml based definition string to parse
+     * @param {{ name: String, db: String }} options - Options to include for default name
+     */
+    addDefinitions(definitions, options) {
+        if (Array.isArray(definitions)) {
+            let promises = definitions.map(definition => {
+                if (typeof definition === 'object') {
+                    return this.addDefinition(definition, options);
+                } else if (typeof definition === 'string') {
+                    return this.addDefinitionUri(definition, options);
+                } else {
+                    return Promise.reject(new TypeError('Invalid type for definition in plugin'));
+                }
+            });
+            return Promise.all(promises);
+        } else {
+            if (typeof definitions === 'object') {
+                return this.addDefinition(definitions, options);
+            } else if (typeof definitions === 'string') {
+                return this.addDefinitionUri(definitions, options);
+            } else {
+                return Promise.reject(new TypeError('Invalid type for definition in plugin'));
+            }
+        }
     }
 
     /**

@@ -3,10 +3,10 @@ Simple mongoose/mongodb boilerplate with support for model based yaml definition
 
 # Plugin model
 
-Simple ES6/Promise based plugin model for loading models into the database. For every project I've run into I have all this setup code that I use and I got tired of doing it. I like being able to define the common models without all the extra usual stuff like importing commonly used formatters, validators, schemas..etc. `mongo-boiler` uses a singleton instance for the repository as well so the way we will setup plugins is as so. Also check out the `test/` folder for a test plugin example.
+Simple ES6/Promise based plugin model for loading models into the database. For every project I've run into I have all this setup code that I use and I got tired of doing it. I like being able to define the common models without all the extra usual stuff like importing commonly used formatters, validators, schemas..etc. `@nyxtom/database` uses a singleton instance for the repository as well so the way we will setup plugins is as so. Also check out the `test/` folder for a test plugin example.
 
 ```js
-import * as repo from 'mongo-boiler';
+import * as repo from '@nyxtom/database';
 import * as testPlugin from './test-plugin';
 
 repo.configure({
@@ -56,6 +56,11 @@ virtual:
         - firstName
         - lastName
 
+index:
+  - email: 1
+    options:
+      unique: true
+
 plugins:
   - fooNewDocument
   - fooHello
@@ -103,21 +108,47 @@ async function load(repository) {
 export default load;
 ```
 
+Alternatively, you can simply export the virtual formatters, schema plugins, set formatters, validators and the definitions as constants rather than use a function to load.
+
+```js
+import path from 'path';
+
+import * as virtualFormatters from './virtual-formatters';
+import * as schemaPlugins from './schema-plugins';
+
+const definitions = ['Foo'].map(d => {
+    return path.resolve(__dirname + `/${d}.yml`);
+});
+
+export { definitions, virtualFormatters, schemaPlugins };
+```
+
 ## Repository Manager API
 
 Adding definitions (inside the test-plugin prior to calling `repository.plugin`
+
 ```js
 async function load(repository) {
     await repository.addDefinitionUri(path.resolve(__dirname + '/Foo.yml'));
 }
 ```
 
-Adding definitions via url
+Adding definitions via url:
+
 ```js
 async function load(repository) {
     await repository.addDefinitionUri('https://www.example.com/Foo.yml');
 }
 ```
+
+Or alternatively via the export:
+
+```js
+export const definitions = [
+    'https://www.example.com/Foo.yml'
+];
+```
+
 
 Add validators, schemas plugins, virtual formatters, set formatters.
 
@@ -130,6 +161,21 @@ async function load(repository) {
 }
 ```
 
+Or export via consts:
+
+```js
+import * as virtualFormatters from './virtual-formatters';
+import * as schemaPlugins from './schema-plugins';
+import * as setFormatters from './set-formatters';
+import * as validators from './validators';
+
+const definitions = [
+    path.resolve(__dirname + '/Foo.yml')
+];
+
+export { virtualFormatters, schemaPlugins, setFormatters, validators, definitions };
+```
+
 ## Default Plugins
 
 By default the `mongoose-bcrypt` plugin is used to handle bcrypt fields. Additional support for other types may be used depending on long term needs. Otherwise, the base minimum has been setup. Additional plugins can be added via `repository.addSchemaPlugins`, `repository.addVirtualFormatters`, `repository.addSetFormatters`, `repository.addValidators`.
@@ -138,6 +184,3 @@ By default the `mongoose-bcrypt` plugin is used to handle bcrypt fields. Additio
 
 Copyright (c) 2018 Thomas Holloway
 Licensed under the MIT license.
-
-
-
